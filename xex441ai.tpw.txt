@@ -1,6 +1,0 @@
-﻿
-#
-# Write a message for tag:
-#   ep00
-# Lines starting with '#' will be ignored.
-
