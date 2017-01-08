@@ -13,8 +13,7 @@ namespace YoutubeGameProject {
         [STAThread]
         static void Main()
         {
-            using (var game = new YoutubeGame())
-                game.Run();
+            YoutubeGame.Instance.Run();
         }
     }
 #endif

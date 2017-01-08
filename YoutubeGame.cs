@@ -5,14 +5,33 @@ using System.IO;
 
 namespace YoutubeGameProject {
     public class YoutubeGame : Game {
+
+        private static YoutubeGame instance;
+        public static YoutubeGame Instance {
+            get {
+                if (instance == null) {
+                    instance = new YoutubeGame();
+                }
+                return instance;
+            }
+        }
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D spaceIslandTexture;
         Sprite tinyMaleSprite;
 
+        InputManager inputManager;
+        public InputManager InputManager {
+            get {
+                return inputManager;
+            }
+        }
+
         public YoutubeGame() {
             graphics = new GraphicsDeviceManager(this);
             IsMouseVisible = true;
+            inputManager = new InputManager(false);
         }
 
         protected override void Initialize() {
@@ -24,30 +43,20 @@ namespace YoutubeGameProject {
 
             spaceIslandTexture = Texture2D.FromStream(GraphicsDevice, File.OpenRead("Content/space-island.png"));
             Texture2D tinyMaleTexture = Texture2D.FromStream(GraphicsDevice, File.OpenRead("Content/tiny-male.png"));
-            tinyMaleSprite = new Sprite(tinyMaleTexture, new Vector2(100, 100));
+            tinyMaleSprite = new Sprite(tinyMaleTexture, new Vector2(100, 100), true);
         }
 
         protected override void UnloadContent() {
         }
 
         protected override void Update(GameTime gameTime) {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            inputManager.Update();
+
+            if (inputManager.Pressed(Input.Back)) {
                 Exit();
+            }
 
-            var keyboardState = Keyboard.GetState();
-
-            if (keyboardState.IsKeyDown(Keys.W)) {
-                tinyMaleSprite.Position.Y -= 10 * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-            }
-            if (keyboardState.IsKeyDown(Keys.S)) {
-                tinyMaleSprite.Position.Y += 10 * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-            }
-            if (keyboardState.IsKeyDown(Keys.A)) {
-                tinyMaleSprite.Position.X -= 30 * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-            }
-            if (keyboardState.IsKeyDown(Keys.D)) {
-                tinyMaleSprite.Position.X += 30 * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-            }
+            tinyMaleSprite.Update(gameTime);
 
             base.Update(gameTime);
         }
