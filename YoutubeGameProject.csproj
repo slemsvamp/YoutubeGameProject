@@ -38,8 +38,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Gamescreen.cs" />
+    <Compile Include="Gamescreens\StartupGamescreen.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="InputManager.cs" />
+    <Compile Include="Managers\GamescreenManager.cs" />
+    <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="YoutubeGame.cs" />
     <Compile Include="Program.cs" />

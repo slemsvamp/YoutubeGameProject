@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System.IO;
 
 namespace YoutubeGameProject {
     public class YoutubeGame : Game {
@@ -16,12 +14,17 @@ namespace YoutubeGameProject {
             }
         }
 
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        Texture2D spaceIslandTexture;
-        Sprite tinyMaleSprite;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
 
-        InputManager inputManager;
+        private GamescreenManager gamescreenManager;
+        public GamescreenManager GamescreenManager {
+            get {
+                return gamescreenManager;
+            }
+        }
+
+        private InputManager inputManager;
         public InputManager InputManager {
             get {
                 return inputManager;
@@ -31,19 +34,18 @@ namespace YoutubeGameProject {
         public YoutubeGame() {
             graphics = new GraphicsDeviceManager(this);
             IsMouseVisible = true;
-            inputManager = new InputManager(false);
+            inputManager = new InputManager();
+            gamescreenManager = new GamescreenManager();
         }
 
         protected override void Initialize() {
             base.Initialize();
+
+            gamescreenManager.Push(new StartupGamescreen());
         }
 
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            spaceIslandTexture = Texture2D.FromStream(GraphicsDevice, File.OpenRead("Content/space-island.png"));
-            Texture2D tinyMaleTexture = Texture2D.FromStream(GraphicsDevice, File.OpenRead("Content/tiny-male.png"));
-            tinyMaleSprite = new Sprite(tinyMaleTexture, new Vector2(100, 100), true);
         }
 
         protected override void UnloadContent() {
@@ -52,11 +54,7 @@ namespace YoutubeGameProject {
         protected override void Update(GameTime gameTime) {
             inputManager.Update();
 
-            if (inputManager.Pressed(Input.Back)) {
-                Exit();
-            }
-
-            tinyMaleSprite.Update(gameTime);
+            gamescreenManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -64,10 +62,7 @@ namespace YoutubeGameProject {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap);
-            spriteBatch.Draw(spaceIslandTexture, Vector2.Zero, Color.White);
-            tinyMaleSprite.Draw(spriteBatch);
-            spriteBatch.End();
+            gamescreenManager.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
