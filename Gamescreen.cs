@@ -26,7 +26,7 @@ namespace YoutubeGameProject {
             initialized = true;
         }
 
-        public virtual void LoadContent(GraphicsDevice pGraphicsDevice) {
+        public virtual void LoadContent(ContentManager pContentManager) {
         }
 
         public virtual void Update(GameTime pGameTime) {

@@ -41,6 +41,7 @@
     <Compile Include="Gamescreen.cs" />
     <Compile Include="Gamescreens\StartupGamescreen.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="Managers\ContentManager.cs" />
     <Compile Include="Managers\GamescreenManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Sprite.cs" />
@@ -56,10 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\space-island.png">
+    <Content Include="Content\Sprites\space-island.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\tiny-male.png">
+    <Content Include="Content\Sprites\tiny-male.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />

@@ -31,11 +31,19 @@ namespace YoutubeGameProject {
             }
         }
 
+        private ContentManager contentManager;
+        public ContentManager ContentManager {
+            get {
+                return contentManager;
+            }
+        }
+
         public YoutubeGame() {
             graphics = new GraphicsDeviceManager(this);
             IsMouseVisible = true;
             inputManager = new InputManager();
             gamescreenManager = new GamescreenManager();
+            contentManager = new ContentManager();
         }
 
         protected override void Initialize() {
@@ -45,6 +53,7 @@ namespace YoutubeGameProject {
         }
 
         protected override void LoadContent() {
+            contentManager.Prepare(GraphicsDevice);
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 

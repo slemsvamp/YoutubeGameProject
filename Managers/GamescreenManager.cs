@@ -40,7 +40,7 @@ namespace YoutubeGameProject {
                 // initialize if not initialized
                 if (gs.Initialized == false) {
                     gs.Initialize();
-                    gs.LoadContent(YoutubeGame.Instance.GraphicsDevice);
+                    gs.LoadContent(YoutubeGame.Instance.ContentManager);
                 }
 
                 // update it

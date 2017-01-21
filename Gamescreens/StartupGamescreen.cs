@@ -19,11 +19,11 @@ namespace YoutubeGameProject {
             base.Initialize();
         }
 
-        public override void LoadContent(GraphicsDevice pGraphicsDevice) {
-            base.LoadContent(pGraphicsDevice);
+        public override void LoadContent(ContentManager pContentManager) {
+            base.LoadContent(pContentManager);
 
-            spaceIslandTexture = Texture2D.FromStream(pGraphicsDevice, File.OpenRead("Content/space-island.png"));
-            Texture2D tinyMaleTexture = Texture2D.FromStream(pGraphicsDevice, File.OpenRead("Content/tiny-male.png"));
+            spaceIslandTexture = pContentManager.GetTexture("Content/Sprites/space-island.png");
+            Texture2D tinyMaleTexture = pContentManager.GetTexture("Content/Sprites/tiny-male.png");
             tinyMaleSprite = new Sprite(tinyMaleTexture, new Vector2(100, 100), true);
         }
 
