@@ -38,12 +38,15 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Font.cs" />
+    <Compile Include="FramedSprite.cs" />
     <Compile Include="Gamescreen.cs" />
     <Compile Include="Gamescreens\StartupGamescreen.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Managers\ContentManager.cs" />
     <Compile Include="Managers\GamescreenManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
+    <Compile Include="Size.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="YoutubeGame.cs" />
     <Compile Include="Program.cs" />
@@ -57,6 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Fonts\small-font.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Sprites\space-island.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -64,6 +70,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Fonts\small-font.fontmapping">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

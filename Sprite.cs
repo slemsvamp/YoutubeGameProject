@@ -8,35 +8,64 @@ using System.Threading.Tasks;
 
 namespace YoutubeGameProject {
     public class Sprite {
-        public Vector2 Position;
-        public Texture2D Texture;
-        public bool IsPlayerControlled;
+        protected Vector2 position;
+        public Vector2 Position {
+            get {
+                return position;
+            }
+        }
 
-        public Sprite(Texture2D pTexture, Vector2 pPosition, bool pIsPlayerControlled = false) {
-            Position = pPosition;
-            Texture = pTexture;
-            IsPlayerControlled = pIsPlayerControlled;
+        protected Texture2D texture;
+        public Texture2D Texture {
+            get {
+                return texture;
+            }
+        }
+
+        private bool isPlayerControlled;
+        public bool IsPlayerControlled {
+            get {
+                return isPlayerControlled;
+            }
+        }
+
+        protected Color tint;
+        public Color Tint {
+            get {
+                return tint;
+            }
+        }
+
+        public Sprite(Texture2D pTexture, Vector2 pPosition, Color pTint, bool pIsPlayerControlled = false) {
+            position = pPosition;
+            texture = pTexture;
+            tint = pTint;
+            isPlayerControlled = pIsPlayerControlled;
+        }
+
+        public void SetTint(Color pTint) {
+            tint = pTint;
         }
 
         public void Update(GameTime pGameTime) {
             if (IsPlayerControlled) {
                 if (YoutubeGame.Instance.InputManager.Pressed(Input.Up)) {
-                    Position.Y -= 30 * pGameTime.ElapsedGameTime.Milliseconds / 1000f;
+                    position.Y -= 30 * pGameTime.ElapsedGameTime.Milliseconds / 1000f;
                 }
                 if (YoutubeGame.Instance.InputManager.Pressed(Input.Down)) {
-                    Position.Y += 30 * pGameTime.ElapsedGameTime.Milliseconds / 1000f;
+                    position.Y += 30 * pGameTime.ElapsedGameTime.Milliseconds / 1000f;
                 }
                 if (YoutubeGame.Instance.InputManager.Pressed(Input.Left)) {
-                    Position.X -= 30 * pGameTime.ElapsedGameTime.Milliseconds / 1000f;
+                    position.X -= 30 * pGameTime.ElapsedGameTime.Milliseconds / 1000f;
                 }
                 if (YoutubeGame.Instance.InputManager.Pressed(Input.Right)) {
-                    Position.X += 30 * pGameTime.ElapsedGameTime.Milliseconds / 1000f;
+                    position.X += 30 * pGameTime.ElapsedGameTime.Milliseconds / 1000f;
                 }
             }
         }
 
-        public void Draw(SpriteBatch pSpriteBatch) {
-            pSpriteBatch.Draw(Texture, Position, Color.White);
+        public virtual void Draw(SpriteBatch pSpriteBatch) {
+            pSpriteBatch.Draw(texture, position, tint);
         }
     }
 }

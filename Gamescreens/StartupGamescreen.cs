@@ -11,6 +11,7 @@ namespace YoutubeGameProject {
     public class StartupGamescreen : Gamescreen {
         Texture2D spaceIslandTexture;
         Sprite tinyMaleSprite;
+        Font smallFont;
 
         public StartupGamescreen() {
         }
@@ -24,7 +25,14 @@ namespace YoutubeGameProject {
 
             spaceIslandTexture = pContentManager.GetTexture("Content/Sprites/space-island.png");
             Texture2D tinyMaleTexture = pContentManager.GetTexture("Content/Sprites/tiny-male.png");
-            tinyMaleSprite = new Sprite(tinyMaleTexture, new Vector2(100, 100), true);
+            tinyMaleSprite = new Sprite(tinyMaleTexture, new Vector2(100, 100), Color.White, true);
+
+            Texture2D fontSpriteTexture = pContentManager.GetTexture("Content/Fonts/small-font.png");
+            FramedSprite fontSprite = new FramedSprite(8, 6, 0, fontSpriteTexture, Vector2.Zero, Color.White);
+
+            var mapping = pContentManager.GetFontMapping("Content/Fonts/small-font.fontmapping");
+
+            smallFont = new Font(fontSprite, mapping, 0, 1, Color.Red);
         }
 
         public override void Update(GameTime pGameTime) {
@@ -43,6 +51,8 @@ namespace YoutubeGameProject {
             pSpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap);
             pSpriteBatch.Draw(spaceIslandTexture, Vector2.Zero, Color.White);
             tinyMaleSprite.Draw(pSpriteBatch);
+
+            smallFont.DrawString(pSpriteBatch, "Hello World, I really like to make long strings to write!", new Vector2(100, 100));
             pSpriteBatch.End();
 
         }
