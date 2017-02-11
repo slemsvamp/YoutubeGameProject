@@ -46,6 +46,8 @@
     <Compile Include="Managers\ContentManager.cs" />
     <Compile Include="Managers\GamescreenManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
+    <Compile Include="SoundFX.cs" />
+    <Compile Include="Managers\SoundManager.cs" />
     <Compile Include="Size.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="YoutubeGame.cs" />
@@ -63,6 +65,9 @@
     <Content Include="Content\Fonts\small-font.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\SFX\coin.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Sprites\space-island.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -76,6 +81,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

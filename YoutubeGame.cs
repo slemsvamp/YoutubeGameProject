@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace YoutubeGameProject {
     public class YoutubeGame : Game {
@@ -38,12 +39,24 @@ namespace YoutubeGameProject {
             }
         }
 
+        private SoundManager soundManager;
+        public SoundManager SoundManager {
+            get {
+                return soundManager;
+            }
+        }
+
         public YoutubeGame() {
             graphics = new GraphicsDeviceManager(this);
             IsMouseVisible = true;
             inputManager = new InputManager();
             gamescreenManager = new GamescreenManager();
             contentManager = new ContentManager();
+            soundManager = new SoundManager(new List<SoundFX> {
+                new SoundFX {
+                    Key = "Coin", Filename = "Content/SFX/coin.wav", DefaultPitch = 1, DefaultVolume = 0.25f
+                }
+            });
         }
 
         protected override void Initialize() {
@@ -55,6 +68,7 @@ namespace YoutubeGameProject {
         protected override void LoadContent() {
             contentManager.Prepare(GraphicsDevice);
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            soundManager.LoadContent(contentManager);
         }
 
         protected override void UnloadContent() {
