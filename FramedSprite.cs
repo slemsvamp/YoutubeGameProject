@@ -21,7 +21,7 @@ namespace YoutubeGameProject {
 
         private int currentFrame;
 
-        public FramedSprite(int pFramesX, int pFramesY, int pBorderSize, Texture2D pTexture, Vector2 pPosition, Color pTint, bool pIsPlayerControlled = false) : base(pTexture, pPosition, pTint, pIsPlayerControlled) {
+        public FramedSprite(int pFramesX, int pFramesY, int pBorderSize, Texture2D pTexture, Vector2 pPosition, Color pTint) : base(pTexture, pPosition, pTint) {
             framesX = pFramesX;
             framesY = pFramesY;
             borderSize = pBorderSize;
@@ -46,13 +46,13 @@ namespace YoutubeGameProject {
             return new Rectangle(textureX, textureY, frameSize.Width, frameSize.Height);
         }
 
-        public override void Draw(SpriteBatch pSpriteBatch) {
-            Draw(pSpriteBatch, position);
+        public override void Draw(SpriteBatch pSpriteBatch, float pScale = 1f) {
+            Draw(pSpriteBatch, position, pScale);
         }
 
-        public void Draw(SpriteBatch pSpriteBatch, Vector2 pPosition) {
+        public void Draw(SpriteBatch pSpriteBatch, Vector2 pPosition, float pScale = 1f) {
             Rectangle sourceRectangle = GetSourceRectangle();
-            pSpriteBatch.Draw(texture, pPosition, sourceRectangle, tint);
+            pSpriteBatch.Draw(texture, pPosition, sourceRectangle, tint, 0f, Vector2.Zero, pScale, SpriteEffects.None, 1f);
         }
     }
 }

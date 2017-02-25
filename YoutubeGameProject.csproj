@@ -43,6 +43,7 @@
     <Compile Include="Gamescreen.cs" />
     <Compile Include="Gamescreens\StartupGamescreen.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="InputData.cs" />
     <Compile Include="Managers\ContentManager.cs" />
     <Compile Include="Managers\GamescreenManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
