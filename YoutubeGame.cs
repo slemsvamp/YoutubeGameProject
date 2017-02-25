@@ -54,7 +54,7 @@ namespace YoutubeGameProject {
             contentManager = new ContentManager();
             soundManager = new SoundManager(new List<SoundFX> {
                 new SoundFX {
-                    Key = "Coin", Filename = "Content/SFX/coin.wav", DefaultPitch = 1, DefaultVolume = 0.25f
+                    Key = "Coin", Filename = "Content/SFX/coin.wav", DefaultPitch = 1, DefaultVolume = 0.10f
                 }
             });
         }
@@ -75,7 +75,7 @@ namespace YoutubeGameProject {
         }
 
         protected override void Update(GameTime gameTime) {
-            inputManager.Update();
+            inputManager.Update(gameTime);
 
             gamescreenManager.Update(gameTime);
 

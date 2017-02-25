@@ -28,7 +28,7 @@ namespace YoutubeGameProject {
             spacing = new Size { Width = pHorizontalSpace, Height = pVerticalSpace };
         }
 
-        public void DrawString(SpriteBatch pSpriteBatch, string pText, Vector2 pPosition) {
+        public void DrawString(SpriteBatch pSpriteBatch, string pText, Vector2 pPosition, float pScale = 1f) {
             int x = (int)pPosition.X;
 
             foreach (char c in pText) {
@@ -37,9 +37,9 @@ namespace YoutubeGameProject {
                 int translatedValue = mapping[key];
 
                 sprite.SetCurrentFrame(translatedValue);
-                sprite.Draw(pSpriteBatch, new Vector2(x, pPosition.Y));
+                sprite.Draw(pSpriteBatch, new Vector2(x, pPosition.Y), pScale);
 
-                x += sprite.FrameSize.Width + spacing.Width;
+                x += (int)(pScale * (sprite.FrameSize.Width + spacing.Width));
             }
         }
     }

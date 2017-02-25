@@ -22,13 +22,6 @@ namespace YoutubeGameProject {
             }
         }
 
-        private bool isPlayerControlled;
-        public bool IsPlayerControlled {
-            get {
-                return isPlayerControlled;
-            }
-        }
-
         protected Color tint;
         public Color Tint {
             get {
@@ -36,36 +29,29 @@ namespace YoutubeGameProject {
             }
         }
 
-        public Sprite(Texture2D pTexture, Vector2 pPosition, Color pTint, bool pIsPlayerControlled = false) {
+        public Sprite(Texture2D pTexture, Vector2 pPosition, Color pTint) {
             position = pPosition;
             texture = pTexture;
             tint = pTint;
-            isPlayerControlled = pIsPlayerControlled;
         }
 
         public void SetTint(Color pTint) {
             tint = pTint;
         }
 
-        public void Update(GameTime pGameTime) {
-            if (IsPlayerControlled) {
-                if (YoutubeGame.Instance.InputManager.Pressed(Input.Up)) {
-                    position.Y -= 30 * pGameTime.ElapsedGameTime.Milliseconds / 1000f;
-                }
-                if (YoutubeGame.Instance.InputManager.Pressed(Input.Down)) {
-                    position.Y += 30 * pGameTime.ElapsedGameTime.Milliseconds / 1000f;
-                }
-                if (YoutubeGame.Instance.InputManager.Pressed(Input.Left)) {
-                    position.X -= 30 * pGameTime.ElapsedGameTime.Milliseconds / 1000f;
-                }
-                if (YoutubeGame.Instance.InputManager.Pressed(Input.Right)) {
-                    position.X += 30 * pGameTime.ElapsedGameTime.Milliseconds / 1000f;
-                }
-            }
+        public void SetPosition(Vector2 pPosition) {
+            position = pPosition;
         }
 
-        public virtual void Draw(SpriteBatch pSpriteBatch) {
-            pSpriteBatch.Draw(texture, position, tint);
+        public void SetPosition(float pX, float pY) {
+            position = new Vector2(pX, pY);
+        }
+
+        public void Update(GameTime pGameTime) {
+        }
+
+        public virtual void Draw(SpriteBatch pSpriteBatch, float pScale = 1f) {
+            pSpriteBatch.Draw(texture, position, null, null, null, 0, new Vector2(pScale, pScale), tint, SpriteEffects.None, 0);
         }
     }
 }

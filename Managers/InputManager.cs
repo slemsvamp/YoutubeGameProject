@@ -8,16 +8,31 @@ using System.Threading.Tasks;
 
 namespace YoutubeGameProject {
     public class InputManager {
-
+        private Dictionary<Input, InputData> state;
         public Dictionary<Keys, Input> KeyBindingsKeyboard;
         public Dictionary<Buttons, Input> KeyBindingsGamepad;
 
+        private TimeSpan delay;
+        private TimeSpan repeat;
+
         private bool isUsingKeyboard;
 
-        private int playerInput;
+        public InputData this[Input input] {
+            get {
+                if (state.ContainsKey(input)) {
+                    return state[input];
+                }
+                return InputData.Unpressed;
+            }
+        }
 
         public InputManager(bool pIsUsingKeyboard = true) {
             isUsingKeyboard = pIsUsingKeyboard;
+
+            state = new Dictionary<Input, InputData>();
+
+            delay = new TimeSpan(0, 0, 0, 0, 500);
+            repeat = new TimeSpan(0, 0, 0, 0, 75);
 
             KeyBindingsKeyboard = new Dictionary<Keys, Input> {
                 { Keys.W, Input.Up },
@@ -36,34 +51,53 @@ namespace YoutubeGameProject {
             };
         }
 
-        public void Update(PlayerIndex pPlayer = PlayerIndex.One) {
-            playerInput = 0;
+        public void Update(GameTime pGameTime, PlayerIndex pPlayer = PlayerIndex.One) {
+            double now = pGameTime.TotalGameTime.TotalMilliseconds;
+            List<Input> pressedInputs = new List<Input>();
 
             if (isUsingKeyboard) {
                 Keys[] pressedKeys = Keyboard.GetState().GetPressedKeys();
 
                 foreach (Keys key in pressedKeys) {
                     if (KeyBindingsKeyboard.ContainsKey(key)) {
-                        playerInput |= (int)KeyBindingsKeyboard[key];
+                        pressedInputs.Add(KeyBindingsKeyboard[key]);
                     }
                 }
             } else {
                 var gamepadState = GamePad.GetState(pPlayer);
                 foreach (var kvp in KeyBindingsGamepad) {
                     if (gamepadState.IsButtonDown(kvp.Key)) {
-                        playerInput |= (int)kvp.Value;
+                        pressedInputs.Add(kvp.Value);
                     }
                 }
             }
-        }
 
-        public bool Pressed(params Input[] pInputs) {
-            int n = 0;
-            foreach (var pi in pInputs) {
-                n |= (int)pi;
+            foreach (Input pressedInput in pressedInputs) {
+                InputData data = state.ContainsKey(pressedInput) ? state[pressedInput] : new InputData(now + delay.TotalMilliseconds);
+                bool isValid = data.NextValidInput <= now;
+                bool previouslyUnpressed = !data.IsHeld && !data.IsPressed;
+
+                data.IsPressed = data.IsHeld = true;
+
+                if (previouslyUnpressed) {
+                    data.NextValidInput = now + delay.TotalMilliseconds;
+                } else {
+                    if (isValid) {
+                        data.NextValidInput = now + repeat.TotalMilliseconds;
+                    } else {
+                        data.IsPressed = false;
+                    }
+                }
+
+                state[pressedInput] = data;
             }
 
-            return playerInput == n;
+            foreach (Input input in state.Keys) {
+                if (pressedInputs.Contains(input) == false) {
+                    state[input].IsHeld = state[input].IsPressed = false;
+                    state[input].NextValidInput = double.MinValue;
+                }
+            }
         }
     }
 }
