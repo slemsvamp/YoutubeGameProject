@@ -46,6 +46,13 @@ namespace YoutubeGameProject {
             }
         }
 
+        private AnimationManager animationManager;
+        public AnimationManager AnimationManager {
+            get {
+                return animationManager;
+            }
+        }
+
         public YoutubeGame() {
             graphics = new GraphicsDeviceManager(this);
             IsMouseVisible = true;
@@ -57,6 +64,7 @@ namespace YoutubeGameProject {
                     Key = "Coin", Filename = "Content/SFX/coin.wav", DefaultPitch = 1, DefaultVolume = 0.10f
                 }
             });
+            animationManager = new AnimationManager();
         }
 
         protected override void Initialize() {
@@ -69,6 +77,7 @@ namespace YoutubeGameProject {
             contentManager.Prepare(GraphicsDevice);
             spriteBatch = new SpriteBatch(GraphicsDevice);
             soundManager.LoadContent(contentManager);
+            animationManager.LoadContent(contentManager);
         }
 
         protected override void UnloadContent() {
@@ -76,6 +85,7 @@ namespace YoutubeGameProject {
 
         protected override void Update(GameTime gameTime) {
             inputManager.Update(gameTime);
+            animationManager.Update(gameTime);
 
             gamescreenManager.Update(gameTime);
 

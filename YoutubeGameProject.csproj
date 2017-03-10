@@ -38,12 +38,19 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Direction.cs" />
     <Compile Include="Font.cs" />
     <Compile Include="FramedSprite.cs" />
     <Compile Include="Gamescreen.cs" />
     <Compile Include="Gamescreens\StartupGamescreen.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="InputData.cs" />
+    <Compile Include="Managers\AnimationManager.cs" />
+    <Compile Include="Managers\Animation\Animation.cs" />
+    <Compile Include="Managers\Animation\AnimationJob.cs" />
+    <Compile Include="Managers\Animation\AnimationState.cs" />
+    <Compile Include="Managers\Animation\AnimationToken.cs" />
+    <Compile Include="Managers\Animation\AnimationTokenType.cs" />
     <Compile Include="Managers\ContentManager.cs" />
     <Compile Include="Managers\GamescreenManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
@@ -63,6 +70,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Animations\humanoid-animation.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Fonts\small-font.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

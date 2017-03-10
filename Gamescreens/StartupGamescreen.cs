@@ -10,7 +10,13 @@ using System.IO;
 namespace YoutubeGameProject {
     public class StartupGamescreen : Gamescreen {
         Texture2D spaceIslandTexture;
-        Sprite tinyMaleSprite;
+
+        private AnimationManager animationManager;
+
+        FramedSprite tinyMaleSprite;
+        int tinyMaleAnimationId;
+        Direction lastTinyMaleWalkingDirection;
+
         Font smallFont;
 
         public StartupGamescreen() {
@@ -18,6 +24,8 @@ namespace YoutubeGameProject {
 
         public override void Initialize() {
             base.Initialize();
+
+            animationManager = YoutubeGame.Instance.AnimationManager;
         }
 
         public override void LoadContent(ContentManager pContentManager) {
@@ -25,7 +33,7 @@ namespace YoutubeGameProject {
 
             spaceIslandTexture = pContentManager.GetTexture("Content/Sprites/space-island.png");
             Texture2D tinyMaleTexture = pContentManager.GetTexture("Content/Sprites/tiny-male.png");
-            tinyMaleSprite = new Sprite(tinyMaleTexture, new Vector2(100, 100), Color.White);
+            tinyMaleSprite = new FramedSprite(8, 4, 0, tinyMaleTexture, new Vector2(100, 100), Color.White);
 
             Texture2D fontSpriteTexture = pContentManager.GetTexture("Content/Fonts/small-font.png");
             FramedSprite fontSprite = new FramedSprite(8, 6, 0, fontSpriteTexture, Vector2.Zero, Color.White);
@@ -42,20 +50,51 @@ namespace YoutubeGameProject {
                 quit = true;
             }
 
+            Direction tinyMaleWalkingDirection = Direction.None;
+
             if (YoutubeGame.Instance.InputManager[Input.Up].IsHeld) {
+                tinyMaleWalkingDirection = Direction.Up;
                 tinyMaleSprite.SetPosition(tinyMaleSprite.Position.X, tinyMaleSprite.Position.Y - 100 * pGameTime.ElapsedGameTime.Milliseconds / 1000f);
             }
             if (YoutubeGame.Instance.InputManager[Input.Down].IsHeld) {
+                tinyMaleWalkingDirection = Direction.Down;
                 tinyMaleSprite.SetPosition(tinyMaleSprite.Position.X, tinyMaleSprite.Position.Y + 100 * pGameTime.ElapsedGameTime.Milliseconds / 1000f);
             }
             if (YoutubeGame.Instance.InputManager[Input.Left].IsHeld) {
+                tinyMaleWalkingDirection = Direction.Left;
                 tinyMaleSprite.SetPosition(tinyMaleSprite.Position.X - 100 * pGameTime.ElapsedGameTime.Milliseconds / 1000f, tinyMaleSprite.Position.Y);
             }
-            if (YoutubeGame.Instance.InputManager[Input.Right].IsPressed) {
+            if (YoutubeGame.Instance.InputManager[Input.Right].IsHeld) {
+                tinyMaleWalkingDirection = Direction.Right;
                 tinyMaleSprite.SetPosition(tinyMaleSprite.Position.X + 100 * pGameTime.ElapsedGameTime.Milliseconds / 1000f, tinyMaleSprite.Position.Y);
             }
 
             tinyMaleSprite.Update(pGameTime);
+
+            if (tinyMaleWalkingDirection != lastTinyMaleWalkingDirection) {
+                AnimationState? animationState = animationManager.GetState(tinyMaleAnimationId);
+
+                if (animationState.HasValue) {
+                    animationManager.StopAnimation(tinyMaleAnimationId);
+                }
+
+                switch (tinyMaleWalkingDirection) {
+                    case Direction.Up:
+                        tinyMaleAnimationId = animationManager.PlayAnimation("WalkUp8Frame", tinyMaleSprite);
+                        break;
+                    case Direction.Down:
+                        tinyMaleAnimationId = animationManager.PlayAnimation("WalkDown8Frame", tinyMaleSprite);
+                        break;
+                    case Direction.Left:
+                        tinyMaleAnimationId = animationManager.PlayAnimation("WalkLeft8Frame", tinyMaleSprite);
+                        break;
+                    case Direction.Right:
+                        tinyMaleAnimationId = animationManager.PlayAnimation("WalkRight8Frame", tinyMaleSprite);
+                        break;
+                }
+            }
+
+            lastTinyMaleWalkingDirection = tinyMaleWalkingDirection;
         }
 
         public override void Draw(SpriteBatch pSpriteBatch) {

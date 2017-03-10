@@ -37,6 +37,46 @@ namespace YoutubeGameProject {
             return texture;
         }
 
+        public Animation[] GetAnimations(string pFile) {
+            List<Animation> animations = new List<Animation>();
+            if (File.Exists(pFile)) {
+                using (var stream = File.OpenRead(pFile)) {
+                    StreamReader reader = new StreamReader(stream);
+                    while (!reader.EndOfStream) {
+                        string line = reader.ReadLine();
+                        string[] parts = line.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+
+                        List<AnimationToken> tokens = new List<AnimationToken>();
+
+                        foreach (string part in parts.Skip(1)) {
+                            string tokenType = part.Substring(0, 1);
+                            string value = part.Substring(1);
+
+                            AnimationToken token = new AnimationToken();
+                            if (tokenType == "F") {
+                                token.Type = AnimationTokenType.SetFrame;
+                            } else if (tokenType == "W") {
+                                token.Type = AnimationTokenType.Wait;
+                            }
+
+                            token.Value = int.Parse(value);
+
+                            tokens.Add(token);
+                        }
+
+                        animations.Add(new Animation {
+                            Name = parts[0],
+                            Tokens = tokens.ToArray()
+                        });
+                    }
+                }
+            } else {
+                throw new FileNotFoundException("Could not find file " + pFile);
+            }
+
+            return animations.ToArray();
+        }
+
         public SoundEffect GetSoundEffect(string pFile) {
             SoundEffect sfx = null;
 
